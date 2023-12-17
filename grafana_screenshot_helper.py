@@ -1,5 +1,6 @@
 import requests
 import base64
+import os
 
 
 class GrafanaScreenshotHelper:
@@ -94,11 +95,16 @@ class GrafanaScreenshotHelper:
         except Exception as e:
             print(e)
 
+    def _erase_contents_of_save_folder(self, save_folder_path):
+        for file_name in os.listdir(save_folder_path):
+            os.remove(f"{save_folder_path}/{file_name}")
+
     def download_screenshots(self, save_folder_path) -> bool:
         # True if successful
         try:
             self._create_json()
             self._make_http_request()
+            self._erase_contents_of_save_folder(save_folder_path=save_folder_path)
             self._save_pictures_from_http_request(save_folder_path=save_folder_path)
             return True
         except Exception as e:
