@@ -99,12 +99,13 @@ class GrafanaScreenshotHelper:
         for file_name in os.listdir(save_folder_path):
             os.remove(f"{save_folder_path}/{file_name}")
 
-    def download_screenshots(self, save_folder_path) -> bool:
+    def download_screenshots(self, save_folder_path, clear_contents=True) -> bool:
         # True if successful
         try:
             self._create_json()
             self._make_http_request()
-            self._erase_contents_of_save_folder(save_folder_path=save_folder_path)
+            if clear_contents:
+                self._erase_contents_of_save_folder(save_folder_path=save_folder_path)
             self._save_pictures_from_http_request(save_folder_path=save_folder_path)
             return True
         except Exception as e:
